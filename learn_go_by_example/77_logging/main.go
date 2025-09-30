@@ -35,11 +35,11 @@ func main() {
     bufLog.Println("hi")
 
     fmt.Println("from buglog:", buf.String())
-    bufLog.Println("hello")
+    bufLog.Println("http-world")
 
     jsonHandler := slog.NewJSONHandler(os.Stderr, nil)
     myslog := slog.New(jsonHandler)
 
     myslog.Info("hi here")
-    myslog.Info("hello again", "key", "val", "age", 25)
+    myslog.Info("http-world again", "key", "val", "age", 25)
 }

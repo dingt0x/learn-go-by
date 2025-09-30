@@ -2,13 +2,11 @@ package main
 
 import (
     "fmt"
+    "io"
     "os"
     "os/exec"
 )
 
-func returnX() interface{} {
-    return "abc"
-}
 func main() {
     fmt.Println("PATH:", os.Getenv("PATH"))
     dateCmd := exec.Command("date")
@@ -21,20 +19,37 @@ func main() {
 
     fmt.Println(string(dateOut))
 
-    fmt.Println("---")
+    cmdExec := exec.Command("date", "-sdx")
+    cmdOutput, err := cmdExec.Output()
 
-    s := returnX()
-    switch e := s.(type) {
-    case string:
-        fmt.Println("Here is a string", e)
-    default:
-        fmt.Println(e)
+    fmt.Println("cmdOutput: ", cmdOutput)
+    if err != nil {
+
+        switch e := err.(type) {
+        case *exec.Error:
+            fmt.Println("failed executing:", e)
+        case *exec.ExitError:
+            fmt.Println("*exec.ExitError", e)
+            fmt.Println("command exit rc =", e.ExitCode())
+        default:
+            panic(err)
+        }
     }
-    // _, err := exec.Command("date", "-x").Output()
-    //
-    // if err != nil {
-    //     switch e := err.(type) {
-    //     case *exec.Error
-    //
-    //     }
+
+    grepCmd := exec.Command("grep", "http-world")
+
+    grepIn, _ := grepCmd.StdinPipe()
+    grepOut, _ := grepCmd.StdoutPipe()
+
+    grepCmd.Start()
+
+    grepIn.Write([]byte("http-world grep\ngoodbye grep"))
+    grepIn.Close()
+
+    grepBytes, _ := io.ReadAll(grepOut)
+    grepCmd.Wait()
+
+    fmt.Println("> grep http-world")
+    fmt.Println(string(grepBytes))
+
 }

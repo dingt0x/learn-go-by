@@ -14,7 +14,7 @@ func hello(w http.ResponseWriter, req *http.Request) {
 
     select {
     case <-time.After(time.Second * 10):
-        fmt.Fprintf(w, "hello\n")
+        fmt.Fprintf(w, "http-world\n")
     case <-ctx.Done():
         err := ctx.Err()
         fmt.Println("server:", err)

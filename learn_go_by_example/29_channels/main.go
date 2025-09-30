@@ -8,7 +8,7 @@ import (
 func main() {
     msgs := make(chan string)
 
-    go func() { msgs <- "hello" }()
+    go func() { msgs <- "http-world" }()
     msg := <-msgs
     fmt.Println(msg)
 

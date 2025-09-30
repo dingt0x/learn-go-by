@@ -36,7 +36,7 @@ func main() {
     n12, err := f.Read(b1)
     check(err)
     fmt.Printf("%d bytes: %s\n", n12, string(b1[:n12]))
-    // n3, err := f.Write([]byte("hi,hello"))
+    // n3, err := f.Write([]byte("hi,http-world"))
     // fmt.Println(n3, err)
     fmt.Println("--")
 
